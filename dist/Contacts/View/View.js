@@ -1,13 +1,12 @@
-import Contact from "../Contact/Contact";
-export default class View{
-
-
-    public static showMenu(){
-        console.clear()
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class View {
+    static showMenu() {
+        console.clear();
         console.log("------ TU AGENDA CABRONA 😈😈😈 ------");
         console.log();
         console.log();
-        console.log("-------- Menu --------");
+        console.log("------- Menu -------");
         console.log("1. Crear Contacto. ");
         console.log("2. Buscar Contacto. ");
         console.log("3. Borrar Contacto. ");
@@ -15,107 +14,81 @@ export default class View{
         console.log("5. Editar Contacto. ");
         console.log();
         console.log();
-        
     }
-    public static showContact(contact: Contact){
-         console.log();
+    static showContact(contact) {
+        console.log();
         console.log("Nombre: " + contact.names);
         console.log("Apellidos: " + contact.lastnames);
         console.log("Telefono: " + contact.cel);
-         console.log();
+        console.log();
     }
-
-    public static shwoContacts(contacts: Contact[]){
-        for(let ii = 0; ii < contacts.length; ii++){
+    static shwoContacts(contacts) {
+        for (let ii = 0; ii < contacts.length; ii++) {
             this.showContact(contacts[ii]);
         }
     }
-
-
-
-    public static showSearch(){
-        console.clear()
+    static showSearch() {
+        console.clear();
         console.log();
         console.log("--- BUSCAR CONTACTOS ---");
         console.log();
         console.log("Busca tu contacto por su nombre :)");
         console.log();
     }
-
-    
-
-    public static showList(){
-        console.clear()
+    static showList() {
+        console.clear();
         console.log("--- VER CONTACTOS ---");
         console.log();
         console.log("Estos son tus contactos :)");
     }
-
-    public static showCreate(){
-        console.clear()
+    static showCreate() {
+        console.clear();
         console.log("--- CREAR CONTACTOS ---");
         console.log();
         console.log("Ingresa los siguientes datos para crear el contacto: ");
     }
-
-    public static showDelete(){
-        console.clear()
+    static showDelete() {
+        console.clear();
         console.log("--- ELIMINAR CONTACTO ---");
         console.log();
         console.log("Ingresa los siguientes datos para crear el contacto: ");
     }
-
-    public static showEdit(){
-        console.clear()
+    static showEdit() {
+        console.clear();
         console.log("--- EDITAR CONTACTO ---");
         console.log();
         console.log("Ingresa los siguientes datos para crear el contacto: ");
     }
-
-
-
-    public static showNoContactFindet(){
+    static showNoContactFindet() {
         console.log();
         console.log("No fue encontrado ningun contacto. ");
     }
-
-    public static showContactsFindet(contacts: Contact[]){
+    static showContactsFindet(contacts) {
         console.log();
         console.log("Los siguientes son los contactos encontrados: ");
-        this.shwoContacts(contacts)
+        this.shwoContacts(contacts);
     }
-
-    public static showContactFindet(contact: Contact){
+    static showContactFindet(contact) {
         console.log();
         console.log("El siguiente es el  contacto encontrado: ");
-        this.showContact(contact)
-       
+        this.showContact(contact);
     }
-
-
-    public static showSuccesfulContactUpdated(contact:Contact){
-        console.log("Contacto Exitosamente Actualizado!!!")
-        console.log()
-        this.showContact(contact)
-        
+    static showSuccesfulContactUpdated(contact) {
+        console.log("Contacto Exitosamente Actualizado!!!");
+        console.log();
+        this.showContact(contact);
     }
-
-    public static showSuccesfulContactDeleted(cel:string){
-        console.log(`Contacto con el numero ${cel} Exitosamente Eliminado!!!`)
-        console.log()
-        
+    static showSuccesfulContactDeleted(cel) {
+        console.log(`Contacto con el numero ${cel} Exitosamente Eliminado!!!`);
+        console.log();
     }
-
-    public static showSuccesfulContactCreated(contact:Contact){
-        console.log("Contacto Exitosamente Creado!!!")
-        console.log()
-        this.showContact(contact)
-        
+    static showSuccesfulContactCreated(contact) {
+        console.log("Contacto Exitosamente Creado!!!");
+        console.log();
+        this.showContact(contact);
     }
-     public static showAlreadyExistCel(){
-        console.log("Ya existe un contacto con ese numero.")
-
+    static showAlreadyExistCel() {
+        console.log("Ya existe un contacto con ese numero.");
     }
-
-
 }
+exports.default = View;

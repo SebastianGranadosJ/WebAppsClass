@@ -1,4 +1,4 @@
-export default class Contac {
+export default class Contact {
     private _names: string;
     private _lastnames: string;
     private _cel: string;

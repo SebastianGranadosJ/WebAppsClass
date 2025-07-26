@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Board_js_1 = __importDefault(require("../Board/Board.js"));
 const Dictionary_js_1 = __importDefault(require("../Dictionary/Dictionary.js"));
 const View_js_1 = __importDefault(require("../View/View.js"));
-const Imput_js_1 = __importDefault(require("../imput/Imput.js"));
+const Imput_js_1 = __importDefault(require("../../Imput/Imput.js"));
 class GameAdmin {
     constructor() {
         this.dictionary = new Dictionary_js_1.default();

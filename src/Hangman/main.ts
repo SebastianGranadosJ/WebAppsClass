@@ -1,4 +1,5 @@
-import GameAdmin from "./GameAdmin/GameAdmin.js";
+import GameAdmin from "./GameAdmin/GameAdmin"
+
 
 let gameAdmin: GameAdmin = new GameAdmin()
 

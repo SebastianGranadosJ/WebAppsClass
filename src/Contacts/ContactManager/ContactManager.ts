@@ -1,22 +1,23 @@
 import Contact from "../Contact/Contact.js";
 import Imput from "../../Imput/Imput.js";
 import View from "../View/View.js";
+import ContactCRUD from "../ContactCRUD/ContactCRUD.js";
 
 export default class ContactManager{
 
 
-    private contacts: Contact[];
+    private contactCRUD: ContactCRUD;
     private appClosed: boolean;
 
 
     constructor(){
-        this.contacts = []; // Aqui iria jsonManger.getall()
+        this.contactCRUD = new ContactCRUD();
+        this.contactCRUD.loadData()
         this.appClosed = false;
     }
 
 
     public async init(){
-        View.showWelcome();
         while(!this.appClosed){
             View.showMenu();
             await this.doAction()
@@ -26,7 +27,7 @@ export default class ContactManager{
 
     private async doAction(){
     
-            let choose = await Imput.prompt("Ingresa 1 si quieres probar un caracter, Ingresa 2 si quieres ingresar la palabra completa: ");
+            let choose = await Imput.prompt("Ingresa el numero de opcion que deseas usar: ");
             
             switch(choose){
                 case "1":
@@ -58,73 +59,114 @@ export default class ContactManager{
     
         }
     private async editContacts():Promise<void> {
-        let closeAction:boolean = false;
-
-        while(!closeAction){
-            let choose = await Imput.prompt("Ingresa el numero del contacto que deseas editar, o presiona enter si deseas dejar de editar: ");
+            View.showEdit();
+            let cel = await Imput.prompt("Ingresa el numero del contacto que deseas editar: ");
             
-            if(choose == ""){
-                closeAction = true;
+            let contact: Contact | null  = this.contactCRUD.getContactByCel(cel)
+
+            if(contact == null){
+                View.showNoContactFindet();
+                await this.pressToContinue();
                 return;
             }
+            View.showContactFindet(contact);
+    
+            let newNames = await Imput.prompt("Ingresa los nuevos nombres del contacto: ");
+            let newLastnames = await Imput.prompt("Ingresa los nuevos apellidos del contacto: ");
+            let newCel = await Imput.prompt("Ingresa el nuevo numero contacto: ");
 
             
+
+            if(newCel != cel && this.contactCRUD.contactExist(newCel)){
+                View.showAlreadyExistCel()
+                await this.pressToContinue()
+                return
+            }
+
+
+            await this.contactCRUD.updateContact(cel,newNames, newLastnames, newCel);
+
+            View.showSuccesfulContactUpdated(contact);
+            await this.pressToContinue()
+            return
+
+
             
 
-
-
-        }
         
     }
     private async listContacts():Promise<void> {
         View.showList();
-        View.shwoContacts(this.contacts);
-        let choose = await Imput.prompt("Presiona culquier tecla para continuar.");
+        View.shwoContacts( this.contactCRUD.getAllContacts());
+        await this.pressToContinue()
 
         
     }
     private async deleteContact():Promise<void>  {
+        View.showDelete();
+
+        let cel:string = await Imput.prompt("Ingresa el numero del contacto que deseas eliminar: ");
+            
+        let result: boolean = await this.contactCRUD.deleteContact(cel);
+
+        if(!result){
+            View.showNoContactFindet();
+            await this.pressToContinue()
+            return;
+        }
+
+        View.showSuccesfulContactDeleted(cel);
+        await this.pressToContinue()
+        return;
+
         
     }
     private async searchContact():Promise<void>  {
+        View.showSearch()
+        let names:string =  await Imput.prompt("Ingresa el nombre del contacto que deseas buscar: ");
+        let findetContacts: Contact[] = this.contactCRUD.getContactsByNames(names); 
 
 
-        
+        if(findetContacts.length == 0){
+
+            View.showNoContactFindet();
+            await this.pressToContinue()
+            return;
+        }
+
+        View.showContactsFindet(findetContacts);
+        await this.pressToContinue()
+
         
     }
+
     private async createContact():Promise<void>  {
         View.showCreate()
-        let actionClosed: boolean = false;
 
         let names:string =  await Imput.prompt("Ingresa los nombres del contacto: ");
         let lastNames:string =  await Imput.prompt("Ingresa los apellidos del contacto: ");
         let cel:string = await Imput.prompt("Ingresa el numero del contacto: ");
 
-        if(!this.contactExist(cel)){
+        if(!this.contactCRUD.contactExist(cel)){
             let contact: Contact = new Contact(names, lastNames, cel);
-            this.contacts.push(contact);
+            await this.contactCRUD.addContact(contact);
             View.showSuccesfulContactCreated(contact);
         }else{
-            View.showFailedContactCreated()
+            View.showAlreadyExistCel()
         }
-
+        await this.pressToContinue()
             
         
         }
 
         
 
-    private contactExist(cel:string):boolean{
+    private async pressToContinue(){
 
-        for(let ii = 0; ii < this.contacts.length; ii++){
-            if(this.contacts[ii].cel == cel){
-                return true;
-            }
-        }
-        return false;
+        await Imput.prompt("Presione cualquie tecla para continuar.");
+        
 
     }
-
 
 
 }
