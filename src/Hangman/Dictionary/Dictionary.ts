@@ -5,9 +5,11 @@ export default class Dictionary {
 
     constructor(){}
 
+    
+
     public getRandomWord():string {
         const index = Math.floor(Math.random() * this.words.length);
-        return this.words[index];
+        return this.words[index]!;
     }
 
 }

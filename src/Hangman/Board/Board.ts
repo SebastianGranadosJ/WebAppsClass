@@ -12,10 +12,6 @@ export default class Board{
     }
 
 
-    public getPosition(position: number): string{
-        return this._board[position]
-    }
-
      public setAtPosition(position: number, letter: string){
         if(letter != "_"){
             this._blankSpaces --;

@@ -27,13 +27,13 @@ export default class ContactCRUD {
         let namesLower = names.toLowerCase()
         
          for(let ii = 0; ii < this.contacts.length; ii++){
-            if(this.contacts[ii].names.toLowerCase() == namesLower){
-                findetContacts.push(this.contacts[ii])
+            const contact = this.contacts[ii];
+            if(contact &&  contact.names.toLowerCase() == namesLower){
+                findetContacts.push(contact)
             }
         }
         return findetContacts;
     }
-
 
 
     public getContactByIndex(index: number): Contact | null {
@@ -49,7 +49,7 @@ export default class ContactCRUD {
         }
 
 
-        return this.contacts[index];
+        return this.contacts[index] || null;
     }
 
 
@@ -64,9 +64,15 @@ export default class ContactCRUD {
         if(index === -1){
             return false;
         }
-        this.contacts[index].names = names;
-        this.contacts[index].lastnames = lastnames;
-        this.contacts[index].cel = changedCel;
+        const contact = this.contacts[index];
+
+        if(!contact){
+            return false;
+        }
+
+        contact.names = names;
+        contact.lastnames = lastnames;
+        contact.cel = changedCel;
         
 
         await this.saveData();
@@ -88,14 +94,15 @@ export default class ContactCRUD {
     public contactExist(cel:string):boolean{
 
         for(let ii = 0; ii < this.contacts.length; ii++){
-            if(this.contacts[ii].cel == cel){
+            const contact = this.contacts[ii];
+
+            if(contact && contact.cel == cel){
                 return true;
             }
         }
         return false;
 
     }
-
 
 
 
